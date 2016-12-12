@@ -1,4 +1,0 @@
-<project>
- <add_file path="ctx.mch"/>
- <add_file path="m0.mch"/>
-</project>
