@@ -4,5 +4,11 @@
     <project decomp_dir="Z:\GitHub\dwarf_signal\bdp\expand_src" old_decomp_dir="Z:\GitHub\dwarf_signal\bdp\src">
         <!-- Definition directory list -->
         <!-- Component file list -->
+        <component_file path="Z:/GitHub/dwarf_signal" name="ctx" suffix="mch" user="Alex">
+            <component name="ctx" type="specification" />
+        </component_file>
+        <component_file path="Z:/GitHub/dwarf_signal" name="m0" suffix="mch" user="Alex">
+            <component name="m0" type="specification" />
+        </component_file>
     </project>
 </db_xml>
