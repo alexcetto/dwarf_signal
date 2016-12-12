@@ -4,5 +4,9 @@
  */
 MACHINE
     ctx
+    
+SETS
+    status = {ON, OFF};
+    signals = {DRIVE, WARNING, STOP, DARK}
 
 END

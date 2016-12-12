@@ -4,5 +4,15 @@
  */
 MACHINE
     M0
+    
+SEES ctx
+    
+VARIABLES
+    currentSignal,
+    nextSignal
+    
+INITIALISATION
+    currentSignal := DARK ||
+    nextSignal := STOP
 
 END
