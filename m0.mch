@@ -28,16 +28,12 @@ INITIALISATION
 OPERATIONS
     setSignal=
     BEGIN
-        currentSignal, nextSignal, command :(
-            currentSignal: signals
-           & nextSignal: signals &
-           command: signals &
-    (command = STOP => (nextSignal /= DRIVE & nextSignal /= WARNING)) &
-    (command = WARNING => (nextSignal /= DRIVE))
-           
+        nextSignal, command :(
+            currentSignal: signals &
+            nextSignal: signals &
+            command: signals &
+            (command = STOP => (nextSignal /= DRIVE & nextSignal /= WARNING)) &
+            (command = WARNING => (nextSignal /= DRIVE))
         )
-        
-    END
-    
-            
+    END  
 END

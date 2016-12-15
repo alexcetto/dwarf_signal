@@ -1,0 +1,36 @@
+/* M0_i
+ * Author: oliviermarin
+ * Creation date: 15/12/2016
+ */
+
+IMPLEMENTATION M0_i
+REFINES M0
+
+SEES ctx
+    
+
+VARIABLES
+    currentSignal,
+    nextSignal,
+    command
+    
+
+INITIALISATION
+    currentSignal := STOP,
+    nextSignal := STOP,
+    command := STOP
+
+
+OPERATIONS
+    setSignal=
+    BEGIN
+        nextSignal, command :(
+            currentSignal: signals &
+            nextSignal: signals &
+            command: signals &
+            (command = STOP => (nextSignal /= DRIVE & nextSignal /= WARNING)) &
+            (command = WARNING => (nextSignal /= DRIVE))
+        )
+    END
+
+ END
