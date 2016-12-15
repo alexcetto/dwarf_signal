@@ -8,5 +8,8 @@ MACHINE
 SETS
     status = {ON, OFF};
     signals = {DRIVE, WARNING, STOP, DARK}
+    
+//PROPERTIES
+    
 
 END
