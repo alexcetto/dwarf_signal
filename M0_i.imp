@@ -6,47 +6,59 @@
 IMPLEMENTATION M0_i
 REFINES M0
 
-SEES ctx
+SEES ctx, LIGHTS
+   
+CONCRETE_VARIABLES
+    command,
+    currentSignal
     
-
-VARIABLES
-    currentSignal,
-    nextSignal,
-    command
-    
-
 INITIALISATION
-    currentSignal := STOP,
-    nextSignal := STOP,
-    command := STOP
-
+    command := DARK;
+    currentSignal := DARK
 
 OPERATIONS
     set_to_stop =
     BEGIN
-        nextSignal, command :(
-            currentSignal: signals &
-            nextSignal: signals &
-            command: signals &
-            nextSignal /= DRIVE & nextSignal /= WARNING
-        )
-    END;
-    set_to_drive =
-    BEGIN
-       nextSignal, command :(
-            currentSignal: signals &
-            nextSignal: signals &
-            command: signals
-       )
-    END;
+        command := STOP;
+        change_lights(command)
+    END ;
+    
     set_to_warning =
     BEGIN
-        nextSignal, command :(
-            currentSignal: signals &
-            nextSignal: signals &
-            command: signals &
-            nextSignal /= DRIVE
-       )
-   END
+        command := WARNING;
+       WHILE currentSignal /= WARNING DO
+            change_lights(command)
+        INVARIANT
+            command = WARNING
+        VARIANT
+            currentSignal
+        END 
+    END;
+    
+    set_to_drive =
+    BEGIN
+        command := DRIVE;
+       WHILE currentSignal /= DRIVE DO
+            change_lights(command)
+        INVARIANT
+            command = DRIVE
+        VARIANT
+            currentSignal
+        END 
+    END;
+    
+    set_to_dark =
+    BEGIN
+        command := DARK;
+       WHILE currentSignal /= DARK DO
+            change_lights(command)
+        INVARIANT
+            command = DARK
+        VARIANT
+            currentSignal
+        END 
+    END
+    
+    
 
- END
+END

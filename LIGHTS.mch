@@ -6,6 +6,16 @@ MACHINE
     LIGHTS
     
 SEES
-    M0 
+    M0, ctx
 
+VARIABLES
+        
+    
+OPERATIONS
+    change_lights(cmd) = PRE
+        cmd: signals
+    THEN
+         currentSignal := cmd
+    END
 END
+

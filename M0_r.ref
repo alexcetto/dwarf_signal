@@ -14,51 +14,68 @@ VARIABLES
     nextSignal,
     command
     
+CONCRETE_VARIABLES
+    L1,
+    L2,
+    L3
+
+INVARIANT
+    L1 : BOOL &
+    L2 : BOOL &
+    L3 : BOOL &
+    (currentSignal = DRIVE => (L1 = FALSE & L2 = TRUE & L3 = TRUE)) &
+    (currentSignal = WARNING => (L1 = TRUE & L2 = FALSE & L3 = TRUE)) &
+    (currentSignal = STOP => (L1 = TRUE & L2 = TRUE & L3 = FALSE)) &
+    (currentSignal = DARK => (L1 = FALSE & L2 = FALSE & L3 = FALSE))
+    
 
 INITIALISATION
-    currentSignal := STOP ||
-    nextSignal := STOP ||
-    command := STOP
+    currentSignal := DARK ||
+    nextSignal := DARK ||
+    command := DARK ||
+    L1 := FALSE ||
+    L2 := FALSE ||
+    L3 := FALSE
 
 
 OPERATIONS
     set_to_stop =
     BEGIN
-        nextSignal, command :(
+        nextSignal :(
             currentSignal: signals &
             nextSignal: signals &
             command: signals &
+            command = STOP &
             nextSignal /= DRIVE & nextSignal /= WARNING
         )
     END;
-
     set_to_drive =
     BEGIN
-       nextSignal, command :(
-            currentSignal: signals &
-            nextSignal: signals &
-            command: signals
-       )
-    END;
-
-    set_to_warning =
-    BEGIN
-        nextSignal, command :(
+       nextSignal :(
             currentSignal: signals &
             nextSignal: signals &
             command: signals &
+            command = DRIVE
+       )
+    END;
+    set_to_warning =
+    BEGIN
+        nextSignal :(
+            currentSignal: signals &
+            nextSignal: signals &
+            command: signals &
+            command = WARNING &
             nextSignal /= DRIVE
        )
    END;
-
    set_to_dark =
    BEGIN
-        nextSignal, command :(
+        nextSignal :(
             currentSignal: signals &
             nextSignal: signals &
             command: signals &
+            command = DARK &
             nextSignal /= DRIVE & nextSignal /= WARNING
         )
    END
-
  END

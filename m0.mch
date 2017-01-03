@@ -21,43 +21,47 @@ INVARIANT
     
     
 INITIALISATION
-    currentSignal := STOP ||
-    nextSignal := STOP ||
-    command := STOP
+    currentSignal := DARK ||
+    nextSignal := DARK ||
+    command := DARK
 
 OPERATIONS
     set_to_stop =
     BEGIN
-        nextSignal, command :(
+        nextSignal :(
             currentSignal: signals &
             nextSignal: signals &
             command: signals &
+            command = STOP &
             nextSignal /= DRIVE & nextSignal /= WARNING
         )
     END;
     set_to_drive =
     BEGIN
-       nextSignal, command :(
+       nextSignal :(
             currentSignal: signals &
             nextSignal: signals &
-            command: signals
+            command: signals &
+            command = DRIVE
        )
     END;
     set_to_warning =
     BEGIN
-        nextSignal, command :(
+        nextSignal :(
             currentSignal: signals &
             nextSignal: signals &
             command: signals &
+            command = WARNING &
             nextSignal /= DRIVE
        )
    END;
    set_to_dark =
    BEGIN
-        nextSignal, command :(
+        nextSignal :(
             currentSignal: signals &
             nextSignal: signals &
             command: signals &
+            command = DARK &
             nextSignal /= DRIVE & nextSignal /= WARNING
         )
    END
