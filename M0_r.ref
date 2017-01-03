@@ -1,9 +1,9 @@
-/* M0_i
+/* M0_r
  * Author: oliviermarin
- * Creation date: 15/12/2016
+ * Creation date: 03/01/2017
  */
 
-IMPLEMENTATION M0_i
+REFINEMENT M0_r
 REFINES M0
 
 SEES ctx
@@ -16,8 +16,8 @@ VARIABLES
     
 
 INITIALISATION
-    currentSignal := STOP,
-    nextSignal := STOP,
+    currentSignal := STOP ||
+    nextSignal := STOP ||
     command := STOP
 
 
@@ -31,6 +31,7 @@ OPERATIONS
             nextSignal /= DRIVE & nextSignal /= WARNING
         )
     END;
+
     set_to_drive =
     BEGIN
        nextSignal, command :(
@@ -39,6 +40,7 @@ OPERATIONS
             command: signals
        )
     END;
+
     set_to_warning =
     BEGIN
         nextSignal, command :(
@@ -47,6 +49,16 @@ OPERATIONS
             command: signals &
             nextSignal /= DRIVE
        )
+   END;
+
+   set_to_dark =
+   BEGIN
+        nextSignal, command :(
+            currentSignal: signals &
+            nextSignal: signals &
+            command: signals &
+            nextSignal /= DRIVE & nextSignal /= WARNING
+        )
    END
 
  END
