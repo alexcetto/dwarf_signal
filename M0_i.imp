@@ -20,16 +20,26 @@ OPERATIONS
     set_to_stop =
     BEGIN
         command := STOP;
-        change_lights(command)
+        WHILE currentSignal /= STOP DO
+            currentSignal := change_lights(command)
+        INVARIANT
+            command = STOP &
+            currentSignal /= DRIVE &
+            currentSignal /= WARNING
+        VARIANT
+            currentSignal
+        END
+        
     END ;
     
     set_to_warning =
     BEGIN
         command := WARNING;
        WHILE currentSignal /= WARNING DO
-            change_lights(command)
+            currentSignal := change_lights(command)
         INVARIANT
-            command = WARNING
+            command = WARNING &
+            currentSignal /= DRIVE
         VARIANT
             currentSignal
         END 
@@ -39,7 +49,7 @@ OPERATIONS
     BEGIN
         command := DRIVE;
        WHILE currentSignal /= DRIVE DO
-            change_lights(command)
+           currentSignal :=  change_lights(command)
         INVARIANT
             command = DRIVE
         VARIANT
@@ -51,7 +61,7 @@ OPERATIONS
     BEGIN
         command := DARK;
        WHILE currentSignal /= DARK DO
-            change_lights(command)
+            currentSignal := change_lights(command)
         INVARIANT
             command = DARK
         VARIANT

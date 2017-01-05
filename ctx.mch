@@ -6,8 +6,8 @@ MACHINE
     ctx
     
 SETS
-    status = {ON, OFF};
-    signals = {DRIVE, WARNING, STOP, DARK}
+    //status = {ON, OFF};
+    signals = {DRIVE, WARNING, STOP, DARK, INDETERMINE}
     
 //PROPERTIES
     
