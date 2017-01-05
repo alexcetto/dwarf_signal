@@ -5,6 +5,7 @@
 MACHINE
     LIGHT
     
+    
 SEES LIGHTS
 
 END

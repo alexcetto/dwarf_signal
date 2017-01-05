@@ -5,8 +5,8 @@
 MACHINE
     LIGHTS
     
-SEES
-    M0, ctx
+    
+SEES ctx 
 
 SETS
     LAMPES = {L1, L2, L3}
@@ -22,31 +22,49 @@ INITIALISATION
     off:=LAMPES ||
     on := {}
 OPERATIONS
-    rr <-- change_lights(cmd) = PRE
-        rr : signals &
-        cmd : signals
+    
+    
+    rr <-- change_to_dark = PRE
+        rr : signals
     THEN
-        SELECT cmd = DARK THEN
-            ANY ll WHERE
-                ll:on
-            THEN
-                on:= on-{ll} ||
-                off:= off \/{ll}
-            END
-        WHEN cmd = STOP THEN
-            on := on-{L1, L2, L3}
-        WHEN cmd = WARNING THEN
-           off := off-{L1, L3} ||
-           on := on \/{L1, L3} ||
-           on := on-{L2} ||
-           off := off \/{L2}
-       WHEN cmd = DRIVE THEN
-           off := off-{L2, L3} ||
-           on := on \/{L2, L3} ||
-           on := on -{L1} ||
-           off := off \/{L1}
-       END
+        ANY ll WHERE
+            ll:on
+        THEN
+            on:= on-{ll} ||
+            off:= off \/{ll}
+        END
+        ||
+        rr := DARK
     END;
+    
+    rr <-- change_to_warning = PRE
+        rr : signals
+    THEN
+        on := {} \/ {L1, L3} || 
+        off := {} \/ {L2}
+        ||
+        rr := WARNING
+    END;
+    
+    rr <-- change_to_stop = PRE
+        rr : signals
+    THEN
+        on := {} \/ {L1, L2} || 
+        off := {} \/ {L3}
+        ||
+        rr := STOP
+    END;
+    
+     rr <-- change_to_drive = PRE
+        rr : signals
+    THEN
+        on := {} \/ {L2, L3} || 
+        off := {} \/ {L1}
+        ||
+        rr := DRIVE
+    END;
+    
+    
     
     ss <-- read_state = PRE
         ss : signals

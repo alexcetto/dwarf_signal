@@ -1,0 +1,3 @@
+﻿THEORY User_Pass IS
+Operation(change_to_dark) & ff(0) & pp(rt.1 | 60)
+END 

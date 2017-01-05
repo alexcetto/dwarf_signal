@@ -1,0 +1,44 @@
+/* LIGHTS_i
+ * Author: Alex
+ * Creation date: 05/01/2017
+ */
+
+IMPLEMENTATION LIGHTS_i
+REFINES LIGHTS
+    
+IMPORTS LIGHT
+    
+
+SEES
+   ctx
+
+OPERATIONS
+    rr <-- change_to_dark = 
+    BEGIN
+        rr := DARK
+    END;
+
+    
+    rr <-- change_to_warning = 
+    BEGIN
+        rr := DARK
+    END;
+
+    
+    rr <-- change_to_stop = 
+    BEGIN
+        rr := DARK
+    END;
+
+    
+     rr <-- change_to_drive = 
+     BEGIN
+        rr := DARK
+    END;
+    
+    ss <-- read_state = 
+    BEGIN
+       ss := DARK
+    END
+    
+END

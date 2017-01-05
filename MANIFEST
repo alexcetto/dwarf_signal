@@ -1,6 +1,7 @@
 <project>
  <add_file path="LIGHT.mch"/>
  <add_file path="LIGHTS.mch"/>
+ <add_file path="LIGHTS_i.imp"/>
  <add_file path="M0.mch"/>
  <add_file path="M0_i.imp"/>
  <add_file path="M0_r.ref"/>
