@@ -1,9 +1,13 @@
 <project>
+ <add_file path="IO.mch"/>
+ <add_file path="IO_i.imp"/>
  <add_file path="LIGHT.mch"/>
  <add_file path="LIGHTS.mch"/>
  <add_file path="LIGHTS_i.imp"/>
+ <add_file path="LIGHT_i.imp"/>
  <add_file path="M0.mch"/>
  <add_file path="M0_i.imp"/>
  <add_file path="M0_r.ref"/>
  <add_file path="ctx.mch"/>
+ <add_file path="ctx_i.imp"/>
 </project>

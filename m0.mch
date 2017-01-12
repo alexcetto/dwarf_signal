@@ -9,60 +9,36 @@ SEES ctx
     
 VARIABLES
     currentSignal,
-    nextSignal,
     command
     
 INVARIANT
     currentSignal : signals &
-    nextSignal : signals &
-    command : signals &
-    (command = STOP => (nextSignal /= DRIVE & nextSignal /= WARNING)) &
-    (command = WARNING => (nextSignal /= DRIVE))
-    
+    command : signals 
     
 INITIALISATION
     currentSignal := DARK ||
-    nextSignal := DARK ||
     command := DARK
 
 OPERATIONS
-    set_to_stop =
-    BEGIN
-        nextSignal :(
-            currentSignal: signals &
-            nextSignal: signals &
-            command: signals &
-            command = STOP &
-            nextSignal /= DRIVE & nextSignal /= WARNING
-        )
-    END;
-    set_to_drive =
-    BEGIN
-       nextSignal :(
-            currentSignal: signals &
-            nextSignal: signals &
-            command: signals &
-            command = DRIVE
-       )
-    END;
-    set_to_warning =
-    BEGIN
-        nextSignal :(
-            currentSignal: signals &
-            nextSignal: signals &
-            command: signals &
-            command = WARNING &
-            nextSignal /= DRIVE
-       )
-   END;
-   set_to_dark =
-   BEGIN
-        nextSignal :(
-            currentSignal: signals &
-            nextSignal: signals &
-            command: signals &
-            command = DARK &
-            nextSignal /= DRIVE & nextSignal /= WARNING
-        )
-   END
+    set_signal(cmd) = PRE
+        cmd : signals
+    THEN
+        IF cmd = DARK THEN 
+            currentSignal := cmd ||
+            command := cmd
+        ELSIF cmd = STOP THEN 
+            currentSignal := cmd ||
+            command := cmd
+        ELSIF cmd = WARNING THEN 
+            currentSignal := cmd ||
+            command := cmd
+        ELSIF cmd = DRIVE THEN 
+            currentSignal := cmd ||
+            command := cmd
+        ELSE 
+            currentSignal := INDETERMINE ||
+            command := INDETERMINE
+        END
+    END
+    
 END

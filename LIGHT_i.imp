@@ -1,0 +1,23 @@
+/* LIGHT_i
+ * Author: oliviermarin
+ * Creation date: 06/01/2017
+ */
+
+IMPLEMENTATION LIGHT_i
+REFINES LIGHT
+
+SEES ctx
+    
+
+
+OPERATIONS
+    rr <-- set_to_on = BEGIN
+        rr := TRUE
+    END;
+
+    
+    rr <-- set_to_off = BEGIN
+        rr := FALSE
+    END
+
+ END

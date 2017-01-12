@@ -1,0 +1,24 @@
+/* IO_i
+ * Author: oliviermarin
+ * Creation date: 06/01/2017
+ */
+
+IMPLEMENTATION IO_i
+REFINES IO  
+
+IMPORTS
+    M0
+
+SEES ctx
+
+OPERATIONS
+    set_command(law_and_order) = 
+    BEGIN
+        IF law_and_order = 0 THEN set_signal(DARK)
+        ELSIF law_and_order = 1 THEN set_signal(STOP)
+        ELSIF law_and_order = 2 THEN set_signal(WARNING)
+        ELSIF law_and_order = 3 THEN set_signal(DRIVE)
+        END
+    END
+
+ END

@@ -1,81 +1,68 @@
 /* M0_r
  * Author: oliviermarin
- * Creation date: 03/01/2017
+ * Creation date: 05/01/2017
  */
 
 REFINEMENT M0_r
-REFINES M0
+REFINES M0    
 
 SEES ctx
-    
+   
 
 VARIABLES
     currentSignal,
-    nextSignal,
-    command
-    
-CONCRETE_VARIABLES
+    command,
     L1,
     L2,
     L3
-
-INVARIANT
-    L1 : BOOL &
-    L2 : BOOL &
-    L3 : BOOL &
-    (currentSignal = DRIVE => (L1 = FALSE & L2 = TRUE & L3 = TRUE)) &
-    (currentSignal = WARNING => (L1 = TRUE & L2 = FALSE & L3 = TRUE)) &
-    (currentSignal = STOP => (L1 = TRUE & L2 = TRUE & L3 = FALSE)) &
-    (currentSignal = DARK => (L1 = FALSE & L2 = FALSE & L3 = FALSE))
     
 
 INITIALISATION
     currentSignal := DARK ||
-    nextSignal := DARK ||
     command := DARK ||
     L1 := FALSE ||
     L2 := FALSE ||
     L3 := FALSE
+    
+INVARIANT
+    L1 : BOOL &
+    L2 : BOOL &
+    L3 : BOOL &
+    ((currentSignal = DRIVE) => (L1 = FALSE & L2 = TRUE & L3 = TRUE)) &
+    ((currentSignal = WARNING) => (L1 = TRUE & L2 = FALSE & L3 = TRUE)) &
+    ((currentSignal = STOP) => (L1 = TRUE & L2 = TRUE & L3 = FALSE)) &
+    ((currentSignal = DARK) => (L1 = FALSE & L2 = FALSE & L3 = FALSE))
 
 
 OPERATIONS
-    set_to_stop =
-    BEGIN
-        nextSignal :(
-            currentSignal: signals &
-            nextSignal: signals &
-            command: signals &
-            command = STOP &
-            nextSignal /= DRIVE & nextSignal /= WARNING
-        )
-    END;
-    set_to_drive =
-    BEGIN
-       nextSignal :(
-            currentSignal: signals &
-            nextSignal: signals &
-            command: signals &
-            command = DRIVE
-       )
-    END;
-    set_to_warning =
-    BEGIN
-        nextSignal :(
-            currentSignal: signals &
-            nextSignal: signals &
-            command: signals &
-            command = WARNING &
-            nextSignal /= DRIVE
-       )
-   END;
-   set_to_dark =
-   BEGIN
-        nextSignal :(
-            currentSignal: signals &
-            nextSignal: signals &
-            command: signals &
-            command = DARK &
-            nextSignal /= DRIVE & nextSignal /= WARNING
-        )
-   END
+    set_signal(cmd) = PRE
+        cmd : signals
+    THEN
+        command := cmd;
+        IF command = DARK THEN 
+            currentSignal := DARK;
+            L1 := FALSE;
+            L2 := FALSE;
+            L3 := FALSE
+        ELSIF command = STOP THEN
+            currentSignal := STOP;
+            L1 := TRUE;
+            L2 := TRUE;
+            L3 := FALSE
+        ELSIF command = WARNING THEN 
+            currentSignal := WARNING;
+            L1 := TRUE;
+            L2 := FALSE;
+            L3 := TRUE
+        ELSIF command = DRIVE THEN 
+            currentSignal := DRIVE;
+            L1 := FALSE;
+            L2 := TRUE;
+            L3 := TRUE
+        ELSE
+            currentSignal := INDETERMINE;
+            command := INDETERMINE
+        END
+    END
+
  END

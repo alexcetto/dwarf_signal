@@ -1,77 +1,46 @@
 /* M0_i
  * Author: oliviermarin
- * Creation date: 15/12/2016
+ * Creation date: 05/01/2017
  */
 
 IMPLEMENTATION M0_i
-REFINES M0
+REFINES M0_r
 
 IMPORTS
     LIGHTS
 
 SEES ctx
-   
-CONCRETE_VARIABLES
-    command,
-    currentSignal
     
+
+CONCRETE_VARIABLES
+    currentSignal,
+    command
+    
+
 INITIALISATION
-    command := DARK;
-    currentSignal := DARK
+    currentSignal := DARK;
+    command := DARK
+
 
 OPERATIONS
-    set_to_stop =
+    set_signal(cmd) = 
     BEGIN
-        command := STOP;
-        WHILE currentSignal /= STOP DO
-            currentSignal <-- change_to_stop
-        INVARIANT
-            command = STOP &
-            currentSignal /= DRIVE &
-            currentSignal /= WARNING
-        VARIANT
-            currentSignal
+        command := cmd;
+        IF command = DARK THEN
+            set_to_dark(currentSignal);
+            currentSignal := DARK
+        ELSIF command = STOP THEN
+            set_to_stop(currentSignal);
+            currentSignal := STOP
+        ELSIF command = WARNING THEN
+            set_to_warning(currentSignal);
+            currentSignal := WARNING
+        ELSIF command = DRIVE THEN
+            set_to_drive(currentSignal);
+            currentSignal := DRIVE
+        ELSE
+            currentSignal := INDETERMINE
         END
-        
-    END ;
-    
-    set_to_warning =
-    BEGIN
-        command := WARNING;
-       WHILE currentSignal /= WARNING DO
-            currentSignal <-- change_to_warning
-        INVARIANT
-            command = WARNING &
-            currentSignal /= DRIVE
-        VARIANT
-            currentSignal
-        END 
-    END;
-    
-    set_to_drive =
-    BEGIN
-        command := DRIVE;
-       WHILE currentSignal /= DRIVE DO
-           currentSignal <--  change_to_drive
-        INVARIANT
-            command = DRIVE
-        VARIANT
-            currentSignal
-        END 
-    END;
-    
-    set_to_dark =
-    BEGIN
-        command := DARK;
-       WHILE currentSignal /= DARK DO
-            currentSignal <-- change_to_dark
-        INVARIANT
-            command = DARK
-        VARIANT
-            currentSignal
-        END 
     END
-    
-    
 
-END
+ END

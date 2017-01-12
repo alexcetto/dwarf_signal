@@ -1,44 +1,120 @@
 /* LIGHTS_i
- * Author: Alex
+ * Author: oliviermarin
  * Creation date: 05/01/2017
  */
 
 IMPLEMENTATION LIGHTS_i
 REFINES LIGHTS
-    
-IMPORTS LIGHT
+
+IMPORTS
+    LIGHT
+
+SEES ctx
     
 
-SEES
-   ctx
+INITIALISATION
+    L1 := FALSE;
+    L2 := FALSE;
+    L3 := FALSE;
+    currentState := DARK;
+    swag := DARK
+
 
 OPERATIONS
-    rr <-- change_to_dark = 
+    set_to_dark(currSig) = 
     BEGIN
-        rr := DARK
+        swag := DARK;
+        currentState := currSig;
+        L1 <-- set_to_off;
+        currentState := INDETERMINE;
+        L2 <-- set_to_off;
+        L3 <-- set_to_off;
+        currentState := DARK
+    END;
+    
+    set_to_warning(currSig) = 
+    BEGIN
+        swag := WARNING;
+        currentState := currSig;
+        IF currSig = STOP THEN
+            L2 <-- set_to_off;
+            currentState := INDETERMINE;
+            L3 <-- set_to_on;
+            L1 <-- set_to_on
+        ELSIF currSig = DARK THEN
+            L1 <-- set_to_on;
+            currentState := INDETERMINE;
+            L3 <-- set_to_on;
+            L2 <-- set_to_off
+        ELSIF currSig = DRIVE THEN
+            L2 <-- set_to_off;
+            currentState := INDETERMINE;
+            L1 <-- set_to_on;
+            L3 <-- set_to_on
+        ELSE
+            L1 <-- set_to_on;
+            currentState := INDETERMINE;
+            L2 <-- set_to_off;
+            L3 <-- set_to_on
+        END;
+        currentState := WARNING
     END;
 
     
-    rr <-- change_to_warning = 
+    set_to_stop(currSig) = 
     BEGIN
-        rr := DARK
+        swag := STOP;
+        currentState := currSig;
+        IF currSig = WARNING THEN
+            L3 <-- set_to_off;
+            currentState := INDETERMINE;
+            L2 <-- set_to_on;
+            L1 <-- set_to_on
+        ELSIF currSig = DARK THEN
+            L1 <-- set_to_on;
+            currentState := INDETERMINE;
+            L2 <-- set_to_on;
+            L3 <-- set_to_off
+        ELSIF currSig = DRIVE THEN
+            L1 <-- set_to_on;
+            currentState := INDETERMINE;
+            L3 <-- set_to_off;
+            L2 <-- set_to_on
+        ELSE
+            L1 <-- set_to_on;
+            currentState := INDETERMINE;
+            L2 <-- set_to_on;
+            L3 <-- set_to_off
+        END;
+        currentState := STOP
     END;
 
-    
-    rr <-- change_to_stop = 
-    BEGIN
-        rr := DARK
-    END;
-
-    
-     rr <-- change_to_drive = 
+     set_to_drive(currSig)= 
      BEGIN
-        rr := DARK
-    END;
-    
-    ss <-- read_state = 
-    BEGIN
-       ss := DARK
+         swag := DRIVE;
+         currentState := currSig;
+        IF currSig = WARNING THEN
+            L1 <-- set_to_off;
+            currentState := INDETERMINE;
+            L2 <-- set_to_on;
+            L3 <-- set_to_on
+        ELSIF currSig = DARK THEN
+            L2 <-- set_to_on;
+            currentState := INDETERMINE;
+            L3 <-- set_to_on;
+            L1 <-- set_to_off
+        ELSIF currSig = STOP THEN
+            L1 <-- set_to_off;
+            currentState := INDETERMINE;
+            L3 <-- set_to_on;
+            L2 <-- set_to_on
+        ELSE
+            L1 <-- set_to_off;
+            currentState := INDETERMINE;
+            L2 <-- set_to_on;
+            L3 <-- set_to_on
+        END;
+        currentState := DRIVE
     END
-    
-END
+
+ END
