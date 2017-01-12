@@ -18,7 +18,12 @@ OPERATIONS
         ELSIF law_and_order = 1 THEN set_signal(STOP)
         ELSIF law_and_order = 2 THEN set_signal(WARNING)
         ELSIF law_and_order = 3 THEN set_signal(DRIVE)
+            
         END
+    END;
+    
+    return_value <-- get_command = BEGIN
+        return_value <-- get_signal
     END
 
  END

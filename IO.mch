@@ -8,13 +8,16 @@ MACHINE
 SEES ctx
    
 VARIABLES
-    order
+    order,
+    signal_ref
     
 INITIALISATION
-    order := DARK
+    order := DARK ||
+    signal_ref := DARK
     
 INVARIANT
-    order : signals
+    order : signals &
+    signal_ref : signals
     
 OPERATIONS
     set_command(law_and_order) = PRE
@@ -26,5 +29,11 @@ OPERATIONS
         WHEN law_and_order = 2 THEN order := WARNING
         WHEN law_and_order = 3 THEN order := DRIVE
         END    
-    END        
+    END;
+    
+    return_value <-- get_command = 
+    BEGIN
+
+        return_value :: signals
+    END
 END

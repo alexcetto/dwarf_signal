@@ -39,6 +39,13 @@ OPERATIONS
             currentSignal := INDETERMINE ||
             command := INDETERMINE
         END
+    END;
+    
+    return_signal <-- get_signal = 
+    BEGIN
+        return_signal := command
     END
+    
+        
     
 END
